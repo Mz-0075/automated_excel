@@ -1,64 +1,144 @@
+from tkinter import filedialog
+
 from openpyxl import load_workbook  # import a class from openpyxl package
+import os
+
 
 # Paths
-# path_raw_report = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/test.xlsx'  # path of raw report for automation
-import os
-import tkinter as tk
-from tkinter import filedialog
-# Initial file path
-path_raw_report = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/test.xlsx'
 
-# Check if file exists
-if not os.path.exists(path_raw_report):
-    # File doesn't exist, ask user to select the file using tkinter
-    root = tk.Tk()
-    root.withdraw()  # Hide the root window
-    path_raw_report = filedialog.askopenfilename(
-        title="Select the Excel file",
-        filetypes=[("Excel files", "*.xlsx;*.xls")],
-    )
+def get_valid_file_path(default_path, title, filetypes):
+    """
+    Validate the given file path. If it doesn't exist, prompt the user to select a valid file.
 
-    # If the user selects a file, path_raw_report will be updated
-    if path_raw_report:
-        print(f"File selected: {path_raw_report}")
-    else:
-        print("No file selected.")
-else:
-    print(f"File exists at: {path_raw_report}")
-path_save = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/4G_L1800_SCFT_REPORT_MAL_EDAV12_OUT.xlsx'  # path to save automated report
-path_db = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/4g_db.xlsx'  # path of database should be latest
-path_gis = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/RS Spectra_SCFT_4G GIS.xlsx'
-sec1_azimuth = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC1/AZIMUTH.jpg'
-sec1_clutter = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC1/CLUTTER.jpg'
-sec1_mt = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC1/MT.jpg'
-sec1_et = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC1/ET.jpg'
-sec1_label = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC1/LABEL.jpg'
-sec2_azimuth = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC2/AZIMUTH.jpg'
-sec2_clutter = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC2/CLUTTER.jpg'
-sec2_mt = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC2/MT.jpg'
-sec2_et = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC2/ET.jpg'
-sec2_label = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC2/label.jpg'
-sec3_azimuth = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC3/AZIMUTH.jpg'
-sec3_clutter = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC3/CLUTTER.jpg'
-sec3_mt = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC3/MT.jpg'
-sec3_et = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC3/ET.jpg'
-sec3_label = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/SEC3/lABEL.jpg'
-sec1_tape = "D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/TOWER+ANTENNA/SEC1 AH.jpg"
-sec2_tape = "D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/TOWER+ANTENNA/SEC2 AH.jpg"
-sec3_tape = "D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/TOWER+ANTENNA/SEC3 AH.jpg"
-tower = "D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/TOWER+ANTENNA/TP.jpg"
-degree_0 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/0.jpg'
-degree_30 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/30.jpg'
-degree_60 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/60.jpg'
-degree_90 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/90.jpg'
-degree_120 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/120.jpg'
-degree_150 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/150.jpg'
-degree_180 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/180.jpg'
-degree_210 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/210.jpg'
-degree_240 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/240.jpg'
-degree_270 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/270.jpg'
-degree_300 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/300.jpg'
-degree_330 = 'D:/MINE/PYTHON/PYTHON_PROJECTS/excel_automation/_4G/4G_automatic_report/reference reports/BADA05/PANORAMIC/330.jpg'
+    Args:
+        default_path (str): Default file path to check.
+        title (str): Title for the file dialog box.
+        filetypes (list): Allowed file types for the file dialog.
+
+    Returns:
+        str: A valid file path.
+    """
+    if not os.path.exists(default_path):
+        print(f"File not found: {default_path}")
+        default_path = filedialog.askopenfilename(title=title, filetypes=filetypes)
+        if not default_path:  # User canceled file selection
+            raise FileNotFoundError(f"{title} is required but no file was selected.")
+    return default_path
+
+
+path_root_folder = filedialog.askdirectory(
+    title="Select a Folder",
+    initialdir="/"  # Default directory (optional)
+)
+print(path_root_folder)
+
+path_raw_report = get_valid_file_path(
+    f'{path_root_folder}/resource/raw report.xlsx',
+    title='Select RAW Report', filetypes=[("Excel files", "*.xlsx;*.xls")])
+
+path_save = "C:/Users/mzrss/Downloads/raw_report_output.xlsx"
+path_db = get_valid_file_path(f'{path_root_folder}/resource/db.xlsx',
+                              title='Select 4G Database',
+                              filetypes=[("Excel files", "*.xlsx;*.xls")])  # path of database should be latest
+
+path_gis = get_valid_file_path(f'{path_root_folder}/resource/RS Spectra_SCFT_4G GIS.xlsx',
+                               title='Select 4G gis', filetypes=[("Excel files", "*.xlsx;*.xls")])
+
+sec1_azimuth = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC1/AZM.jpg',
+    title='Select SEC 1 Azimuth', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec1_clutter = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC1/CL.jpg',
+    title='Select SEC 1 Clutter', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+
+sec1_mt = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC1/MT.jpg',
+    title='Select SEC 1 Mechanical Tilt', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec1_et = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC1/ET.jpg',
+    title='Select SEC 1 Electrical Tilt', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec1_label = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC1/LABEL.jpg',
+    title='Select SEC 1 Label', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec2_azimuth = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC2/AZM.jpg',
+    title='Select SEC 2 Azimuth', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec2_clutter = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC2/CL.jpg',
+    title='Select SEC 2 Clutter', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec2_mt = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC2/MT.jpg',
+    title='Select SEC 2 Mechanical Tilt', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec2_et = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC2/ET.jpg',
+    title='Select SEC 2 Electrical Tilt', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec2_label = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC2/label.jpg',
+    title='Select SEC 2 Label', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec3_azimuth = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC3/AZM.jpg',
+    title='Select SEC 3 Azimuth', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec3_clutter = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC3/CL.jpg',
+    title='Select SEC 3 Clutter', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec3_mt = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC3/MT.jpg',
+    title='Select SEC 3 Mechanical Tilt', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec3_et = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC3/ET.jpg',
+    title='Select SEC 3 Electrical Tilt', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec3_label = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/SEC3/lABEL.jpg',
+    title='Select SEC 3 Label', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec1_tape = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/TOWER+ANTENNA/SEC1 AH.jpg',
+    title='Select SEC 1 Antina Height', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec2_tape = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/TOWER+ANTENNA/SEC2 AH.jpg',
+    title='Select SEC 2 Antina Height', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+sec3_tape = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/TOWER+ANTENNA/SEC3 AH.jpg',
+    title='Select SEC 3 Antina Height', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+
+tower = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/TOWER+ANTENNA/TP.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_0 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/0.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_30 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/30.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_60 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/60.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_90 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/90.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_120 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/120.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_150 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/150.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_180 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/180.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_210 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/210.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_240 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/240.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_270 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/270.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_300 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/300.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
+degree_330 = get_valid_file_path(
+    f'{path_root_folder}/Audit photos/PANORAMIC/330.jpg',
+    title='Select Tower Photo', filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")])
 
 header_list = ['SITE', 'CELL', 'TECHNOLOGY', 'TOWER TYPE', 'TOWER HEIGHT', 'BUILDING HEIGHT', 'ANTINA HEIGHT',
                'PRE AZIMUTH', 'M TILT', 'E TILT', 'POST AZIMUTH', 'M TILT',
@@ -67,6 +147,7 @@ header_list = ['SITE', 'CELL', 'TECHNOLOGY', 'TOWER TYPE', 'TOWER HEIGHT', 'BUIL
 wb = load_workbook(path_raw_report)  # creating an object to raw report
 telecom_sheet = wb['Telecom']  # assign telecom sheet from the raw report to telecom_sheet class
 main_sheet = wb['Main Sheet']  # assign Main sheet  from the raw report to main_sheet class
+
 VOLTE_SCFT_NEW_INT_sheet = wb[
     'VOLTE_SCFT_NEW_INT']  # assign VOLTE_SCFT_NEW_INT from the raw report to VOLTE_SCFT_NEW_INT_sheet class
 wb.remove(wb['Clutter_Photos'])  # for deleting existing sheet because cell space not correct

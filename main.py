@@ -193,5 +193,5 @@ def main():
     att.wb.save(att.path_save)  # saving final automated report
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

@@ -4,7 +4,7 @@ from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
 import attributes as att
 from openpyxl.drawing.image import Image
 
-__gis = pd.read_excel(att.path_gis, sheet_name='4G')
+__gis = pd.read_excel(att.path_gis, sheet_name='4G_GIS')
 __db = pd.read_excel(att.path_db, sheet_name='4G')
 
 
